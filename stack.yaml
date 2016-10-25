@@ -1,8 +1,0 @@
-flags: {}
-packages:
-- '.'
-extra-deps:
-- toml-0.1.3
-- unicode-prelude-0.1.1
-- ncurses-0.2.11
-resolver: lts-3.0

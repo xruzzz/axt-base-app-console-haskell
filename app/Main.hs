@@ -1,5 +1,5 @@
 {-
-http://leiffrenzel.de/papers/commandline-options-in-haskell.html
+
 import Control.Monad
 -}
 {-# LANGUAGE UnicodeSyntax #-}
@@ -14,12 +14,23 @@ import System.Exit
 import System.Directory
 import System.IO
 import Text.SOML
-import UI.NCurses
-import Lib
+-- import UI.NCurses
+
+data Options = Options  {
+    optInput  ∷ IO String,
+    optOutput ∷ String → IO ()
+  }
+
+
+defaultOptions ∷ Options
+defaultOptions = Options {
+    optInput  = getContents,
+    optOutput = putStr
+  }
 
 toAlg (x,y) = [chr (x + 96), chr (y + 48)]
 
-main = do  
+main = do
     putStrLn =<< getProgName
     cfg ← getDataSOML "./data-soml/config.soml"
     case cfg of
@@ -52,29 +63,17 @@ main = do
         moveCursor 0 0
     render
     waitFor w (\ev → ev == EventCharacter 'q' || ev == EventCharacter 'Q')
--}
 
-waitFor :: Window → (Event → Bool) → Curses ()
+
+waitFor ∷ Window → (Event → Bool) → Curses ()
 waitFor w p = loop where
     loop = do
         ev ← getEvent w Nothing
         case ev of
             Nothing → loop
             Just ev' → if p ev' then return () else loop
-
-data Options = Options  {
-    optInput  :: IO String,
-    optOutput :: String → IO ()
-  }
-
-
-defaultOptions :: Options
-defaultOptions = Options {
-    optInput  = getContents,
-    optOutput = putStr
-  }
-
-options :: [OptDescr (Options → IO Options)]
+-}
+options ∷ [OptDescr (Options → IO Options)]
 options = [
     Option ['h'] ["help"        ] (NoArg showHelp           )       "Справка",
     Option ['v'] ["version"     ] (NoArg showVersion        )       "show version number",
@@ -82,13 +81,13 @@ options = [
     Option ['o'] ["output"]  (ReqArg writeOutput "FILE") "some option with an optional file argument"
   ]
 
-showHelp, showVersion  :: Options → IO Options
+showHelp, showVersion  ∷ Options → IO Options
 showHelp _ = do
   putStrLn "Справка 1"
   exitWith ExitSuccess
 
 showVersion _ = do
-  putStrLn "v0.1"
+  putStrLn "v0.1.0.1"
   exitWith ExitSuccess
 
 

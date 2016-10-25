@@ -1,0 +1,3 @@
+Сравнить способы обработки аргументов командной строки:
+    http://leiffrenzel.de/papers/commandline-options-in-haskell.html
+    ruhaskell.org/posts/utils/2015/01/19/hflags.html

@@ -1,2 +1,10 @@
 # axt-base-app-console-haskell
-A console application template.
+Шаблон консольного приложения.
+
+Содержимое stack.yaml:
+
+flags: {}
+packages:
+- '.'
+extra-deps:
+resolver: lts-7.5
